@@ -19,11 +19,11 @@ class ListaSuper: UITableViewController {
         
         setupNavigationItems()
         setupTableView()
-        
         retriveProduct()
+        backgroundText()
     }
     
-    
+    //MARK: - Custom functions
     func setupTableView(){
         tableView.register(ProductTableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.backgroundColor = .black
@@ -49,6 +49,7 @@ class ListaSuper: UITableViewController {
                 productsToAdd.statusProduct = ""
                 self.products.append(productsToAdd)
                 self.saveProduct()
+                self.backgroundText()
                 self.tableView.reloadData()
             }
         }
@@ -96,7 +97,25 @@ class ListaSuper: UITableViewController {
             products.remove(at: indexCell)
             saveProduct()
             tableView.deleteRows(at: [indexPath], with: .fade)
+            backgroundText()
         }
+    }
+    
+    //MARK: - Label without products
+    func backgroundText(){
+        
+        if products.count == 0{
+                let noDataLabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+                noDataLabel.text = "No has agregado ningún producto a la lista."
+                noDataLabel.textAlignment = .center
+            noDataLabel.textColor = UIColor.white
+                self.tableView.backgroundView = noDataLabel
+                self.tableView.separatorStyle = .none
+            }
+            else{
+                self.tableView.backgroundView = nil
+            }
+            self.tableView.reloadData()
     }
     
     //MARK: - Data Persistence
@@ -109,7 +128,6 @@ class ListaSuper: UITableViewController {
         catch{
             print("No se pudo guardar los datos")
         }
-        
     }
 
     func retriveProduct(){
@@ -118,11 +136,9 @@ class ListaSuper: UITableViewController {
         if let data = defaults.object(forKey: "products") as? NSData {
             do {
                 products = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, Product.self], from: data as Data) as! [Product]
-                
             }catch {
                 print("No se pudo recuperar los datos")
             }
-            
         }
     }
     

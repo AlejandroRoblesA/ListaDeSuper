@@ -13,6 +13,7 @@ class ProductTableViewCell: UITableViewCell {
     let productLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
