@@ -40,14 +40,12 @@ class ListaSuper: UITableViewController {
     func retriveProduct(){
         
         let defaults = UserDefaults.standard
-        if let data = defaults.object(forKey: "products") {
+        if let data = defaults.object(forKey: "products") as? NSData {
             do {
-                let archived = try NSKeyedArchiver.archivedData(withRootObject: data, requiringSecureCoding: false)
-
-                let record = try NSKeyedUnarchiver.unarchivedObject(ofClass: Product.self, from: archived)
-                products = [record!]
-                print(products)
-            } catch { print(error) }
+                products = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, Product.self], from: data as Data) as! [Product]
+                
+            }catch { print(error) }
+            
         }
     }
     
@@ -109,11 +107,21 @@ class ListaSuper: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let product = products[indexPath.row]
         product.statusProduct = "Comprado"
+        saveProduct()
         tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            let indexCell = indexPath.row
+            products.remove(at: indexCell)
+            saveProduct()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
     
 }
