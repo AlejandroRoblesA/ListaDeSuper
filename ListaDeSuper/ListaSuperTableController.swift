@@ -12,12 +12,46 @@ class ListaSuper: UITableViewController {
     
     let cellId = "cellId"
     var products: [Product] = []
-
+    
+    //MARK: - Life cycle ViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupNavigationItems()
+        setupTableView()
         
+        retriveProduct()
+        
+        
+    }
+    
+    func saveProduct(){
+        let defaults = UserDefaults.standard
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: products, requiringSecureCoding: false)
+            defaults.set(data, forKey: "products")
+        }
+        catch{
+            print("No se pudo guardar los datos")
+        }//archivedData(withRootObject: products)
+        
+    }
+
+    func retriveProduct(){
+        
+        let defaults = UserDefaults.standard
+        if let data = defaults.object(forKey: "products") {
+            do {
+                let archived = try NSKeyedArchiver.archivedData(withRootObject: data, requiringSecureCoding: false)
+
+                let record = try NSKeyedUnarchiver.unarchivedObject(ofClass: Product.self, from: archived)
+                products = [record!]
+                print(products)
+            } catch { print(error) }
+        }
+    }
+    
+    func setupTableView(){
         tableView.register(ProductTableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.backgroundColor = .black
         tableView.separatorColor = .white
@@ -41,6 +75,7 @@ class ListaSuper: UITableViewController {
                 productsToAdd.nameProduct = textFieldAlert.text!
                 productsToAdd.statusProduct = ""
                 self.products.append(productsToAdd)
+                self.saveProduct()
                 self.tableView.reloadData()
             }
         }
