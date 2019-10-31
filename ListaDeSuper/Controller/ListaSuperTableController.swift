@@ -95,8 +95,8 @@ class ListaSuper: UITableViewController {
         if editingStyle == .delete{
             let indexCell = indexPath.row
             products.remove(at: indexCell)
-            saveProduct()
             tableView.deleteRows(at: [indexPath], with: .fade)
+            saveProduct()
             backgroundText()
         }
     }
@@ -141,6 +141,5 @@ class ListaSuper: UITableViewController {
             }
         }
     }
-    
 }
 
