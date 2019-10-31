@@ -9,9 +9,6 @@
 import Foundation
 
 class Product: NSObject, NSSecureCoding{
-    static var supportsSecureCoding: Bool{
-        true
-    }
     
     var nameProduct: String = ""
     var statusProduct: String = ""
@@ -39,6 +36,9 @@ class Product: NSObject, NSSecureCoding{
     func encodeWithCoder(coder: NSCoder){
         coder.encode(self.nameProduct, forKey: "name")
         coder.encode(self.statusProduct, forKey: "status")
-        
+    }
+    
+    static var supportsSecureCoding: Bool{
+        true
     }
 }

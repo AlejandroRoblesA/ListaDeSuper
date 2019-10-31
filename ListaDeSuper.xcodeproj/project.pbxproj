@@ -62,15 +62,39 @@
 			children = (
 				A96EC06C236A7D4C00C17394 /* AppDelegate.swift */,
 				A96EC06E236A7D4C00C17394 /* SceneDelegate.swift */,
-				A96EC070236A7D4C00C17394 /* ListaSuperTableController.swift */,
-				A96EC084236A924D00C17394 /* Product.swift */,
-				A96EC082236A823700C17394 /* ProductTableViewCell.swift */,
+				A97F2C66236B4912001E7EDA /* Model */,
+				A97F2C67236B4915001E7EDA /* View */,
+				A97F2C68236B4918001E7EDA /* Controller */,
 				A96EC072236A7D4C00C17394 /* Main.storyboard */,
 				A96EC075236A7D5400C17394 /* Assets.xcassets */,
 				A96EC077236A7D5400C17394 /* LaunchScreen.storyboard */,
 				A96EC07A236A7D5400C17394 /* Info.plist */,
 			);
 			path = ListaDeSuper;
+			sourceTree = "<group>";
+		};
+		A97F2C66236B4912001E7EDA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A96EC084236A924D00C17394 /* Product.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A97F2C67236B4915001E7EDA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A96EC082236A823700C17394 /* ProductTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A97F2C68236B4918001E7EDA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A96EC070236A7D4C00C17394 /* ListaSuperTableController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

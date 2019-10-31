@@ -21,33 +21,8 @@ class ListaSuper: UITableViewController {
         setupTableView()
         
         retriveProduct()
-        
-        
     }
     
-    func saveProduct(){
-        let defaults = UserDefaults.standard
-        do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: products, requiringSecureCoding: false)
-            defaults.set(data, forKey: "products")
-        }
-        catch{
-            print("No se pudo guardar los datos")
-        }//archivedData(withRootObject: products)
-        
-    }
-
-    func retriveProduct(){
-        
-        let defaults = UserDefaults.standard
-        if let data = defaults.object(forKey: "products") as? NSData {
-            do {
-                products = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, Product.self], from: data as Data) as! [Product]
-                
-            }catch { print(error) }
-            
-        }
-    }
     
     func setupTableView(){
         tableView.register(ProductTableViewCell.self, forCellReuseIdentifier: cellId)
@@ -121,6 +96,33 @@ class ListaSuper: UITableViewController {
             products.remove(at: indexCell)
             saveProduct()
             tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    //MARK: - Data Persistence
+    func saveProduct(){
+        let defaults = UserDefaults.standard
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: products, requiringSecureCoding: false)
+            defaults.set(data, forKey: "products")
+        }
+        catch{
+            print("No se pudo guardar los datos")
+        }
+        
+    }
+
+    func retriveProduct(){
+        
+        let defaults = UserDefaults.standard
+        if let data = defaults.object(forKey: "products") as? NSData {
+            do {
+                products = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, Product.self], from: data as Data) as! [Product]
+                
+            }catch {
+                print("No se pudo recuperar los datos")
+            }
+            
         }
     }
     
